@@ -4,18 +4,520 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MusicApp</title>
-    <!-- ... mesmo CSS ... -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #050508;
+            color: #f0f0f0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .header {
+            background-color: #0a0a12;
+            padding: 15px 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-bottom: 1px solid #1a1a22;
+            flex-shrink: 0;
+        }
+
+        .logo-icon {
+            font-size: 28px;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: bold;
+            color: #f0f0f0;
+            letter-spacing: 1px;
+        }
+
+        .logo-text span {
+            color: #ff0000;
+        }
+
+        .search-bar {
+            background-color: #0a0a12;
+            padding: 15px 25px;
+            display: flex;
+            gap: 12px;
+            border-bottom: 1px solid #1a1a22;
+            flex-shrink: 0;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 12px 20px;
+            border-radius: 24px;
+            border: 2px solid #2a2a32;
+            background-color: #0f0f14;
+            color: #f0f0f0;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .search-input:focus {
+            border-color: #ff0000;
+        }
+
+        .search-input::placeholder {
+            color: #666;
+        }
+
+        .search-btn {
+            padding: 12px 24px;
+            border-radius: 24px;
+            border: none;
+            background-color: #ff0000;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .search-btn:hover {
+            background-color: #cc0000;
+        }
+
+        .tabs {
+            display: flex;
+            background-color: #0a0a12;
+            border-bottom: 1px solid #1a1a22;
+            flex-shrink: 0;
+        }
+
+        .tab {
+            padding: 12px 25px;
+            cursor: pointer;
+            font-size: 16px;
+            color: #888;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .tab:hover {
+            color: #f0f0f0;
+        }
+
+        .tab.active {
+            color: #f0f0f0;
+            border-bottom-color: #ff0000;
+        }
+
+        .content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #f0f0f0;
+        }
+
+        .music-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .music-card {
+            background-color: #0f0f14;
+            border-radius: 12px;
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .music-card:hover {
+            background-color: #1a1a22;
+        }
+
+        .music-card-thumb {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            object-fit: cover;
+            background-color: #222;
+        }
+
+        .music-card-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .music-card-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: #f0f0f0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .music-card-artist {
+            font-size: 12px;
+            color: #888;
+            margin-top: 4px;
+        }
+
+        .result-item {
+            background-color: #0f0f14;
+            border-radius: 12px;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-bottom: 8px;
+        }
+
+        .result-item:hover {
+            background-color: #1a1a22;
+        }
+
+        .result-item.selected {
+            background-color: #ff0000;
+        }
+
+        .result-item-thumb {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            object-fit: cover;
+            background-color: #222;
+        }
+
+        .result-item-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .result-item-title {
+            font-size: 15px;
+            font-weight: bold;
+            color: #f0f0f0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .result-item-artist {
+            font-size: 13px;
+            color: #888;
+            margin-top: 2px;
+        }
+
+        .loading-text {
+            color: #888;
+            text-align: center;
+            padding: 40px;
+            font-size: 16px;
+        }
+
+        .error-text {
+            color: #ff4444;
+            text-align: center;
+            padding: 40px;
+            font-size: 16px;
+        }
+
+        .player {
+            background-color: #08080e;
+            border-top: 1px solid #1a1a22;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-shrink: 0;
+            height: 80px;
+        }
+
+        .player-thumb {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            object-fit: cover;
+            background-color: #222;
+            animation: spin 10s linear infinite;
+            animation-play-state: paused;
+        }
+
+        .player-thumb.playing {
+            animation-play-state: running;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .player-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .player-title {
+            font-size: 15px;
+            font-weight: bold;
+            color: #f0f0f0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .player-artist {
+            font-size: 13px;
+            color: #888;
+        }
+
+        .player-progress {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 4px;
+        }
+
+        .player-progress-bar {
+            flex: 1;
+            height: 4px;
+            background-color: #222;
+            border-radius: 2px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .player-progress-fill {
+            height: 100%;
+            background-color: #ff0000;
+            border-radius: 2px;
+            width: 0%;
+            transition: width 0.1s;
+        }
+
+        .player-time {
+            font-size: 11px;
+            color: #666;
+            min-width: 35px;
+        }
+
+        .player-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .player-btn {
+            background: none;
+            border: none;
+            color: #f0f0f0;
+            font-size: 22px;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: background-color 0.3s;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .player-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .player-btn.play-btn {
+            background-color: #ff0000;
+        }
+
+        .player-btn.play-btn:hover {
+            background-color: #cc0000;
+        }
+
+        .player-volume {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .player-volume input {
+            width: 80px;
+            accent-color: #ff0000;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a12;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+
+        @media (max-width: 600px) {
+            .header {
+                padding: 10px 15px;
+            }
+
+            .logo-text {
+                font-size: 18px;
+            }
+
+            .search-bar {
+                padding: 10px 15px;
+                flex-wrap: wrap;
+            }
+
+            .search-input {
+                font-size: 14px;
+                padding: 10px 15px;
+            }
+
+            .search-btn {
+                padding: 10px 18px;
+                font-size: 16px;
+            }
+
+            .music-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .player {
+                padding: 8px 12px;
+                height: 70px;
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+
+            .player-thumb {
+                width: 44px;
+                height: 44px;
+            }
+
+            .player-volume input {
+                width: 50px;
+            }
+
+            .tab {
+                padding: 10px 15px;
+                font-size: 14px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- ... mesmo HTML ... -->
+    <div class="header">
+        <span class="logo-icon">🎵</span>
+        <span class="logo-text"><span>Music</span>App</span>
+    </div>
+
+    <div class="search-bar">
+        <input
+            type="text"
+            class="search-input"
+            id="searchInput"
+            placeholder="O que você quer ouvir?"
+        />
+        <button class="search-btn" id="searchBtn">🔍</button>
+    </div>
+
+    <div class="tabs">
+        <div class="tab active" data-tab="home">🏠 Home</div>
+        <div class="tab" data-tab="search">🔍 Buscar</div>
+    </div>
+
+    <div class="content">
+        <div class="tab-content active" id="tab-home">
+            <div class="section-title">🔥 Em Alta</div>
+            <div class="music-grid" id="homeGrid">
+                <div class="loading-text">Carregando músicas em alta...</div>
+            </div>
+        </div>
+
+        <div class="tab-content" id="tab-search">
+            <div id="searchResults">
+                <div class="loading-text">Pesquise por uma música ou artista</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="player">
+        <img
+            class="player-thumb"
+            id="playerThumb"
+            src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect width='100' height='100' fill='%23222'/%3E%3Ctext x='50' y='55' text-anchor='middle' fill='%23666' font-size='40'%3E🎵%3C/text%3E%3C/svg%3E"
+            alt="Album Art"
+        />
+
+        <div class="player-info">
+            <div class="player-title" id="playerTitle">Nenhuma música selecionada</div>
+            <div class="player-artist" id="playerArtist"></div>
+            <div class="player-progress">
+                <span class="player-time" id="currentTime">0:00</span>
+                <div class="player-progress-bar" id="progressBar">
+                    <div class="player-progress-fill" id="progressFill"></div>
+                </div>
+                <span class="player-time" id="totalTime">0:00</span>
+            </div>
+        </div>
+
+        <div class="player-controls">
+            <button class="player-btn play-btn" id="playBtn">▶</button>
+            <div class="player-volume">
+                <span>🔊</span>
+                <input type="range" id="volumeSlider" min="0" max="100" value="80" />
+            </div>
+        </div>
+    </div>
+
+    <audio id="audioPlayer"></audio>
 
     <script>
+        console.log('🎵 MusicApp iniciando...');
+        
         // ===== CONFIGURAÇÃO =====
         const SERPAPI_KEY = 'bc8038ccf980b0fef039cafea897d98aa1af781e073cce006761dfbb8d49512e';
         const BASE_URL = 'https://serpapi.com/search.json';
-        
-        // Usar o proxy da própria Vercel
-        const PROXY_URL = '/api/proxy';
 
         // ===== DOM =====
         const searchInput = document.getElementById('searchInput');
@@ -33,6 +535,8 @@
         const progressBar = document.getElementById('progressBar');
         const audio = document.getElementById('audioPlayer');
 
+        console.log('✅ DOM elements loaded');
+
         // ===== STATE =====
         let searchResultsData = [];
         let trendingData = [];
@@ -46,42 +550,45 @@
             return "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect width='100' height='100' fill='%23222'/%3E%3Ctext x='50' y='55' text-anchor='middle' fill='%23666' font-size='40'%3E🎵%3C/text%3E%3C/svg%3E";
         }
 
-        // Função para fazer requisições através do proxy da Vercel
-        async function fetchViaVercelProxy(url) {
-            const proxyUrl = `${PROXY_URL}?url=${encodeURIComponent(url)}`;
+        async function fetchViaProxy(url) {
+            console.log('🌐 Fetching:', url);
             
-            const res = await fetch(proxyUrl);
-            
-            if (!res.ok) {
-                const errorData = await res.json().catch(() => ({}));
-                throw new Error(errorData.message || `Erro ${res.status} na requisição`);
-            }
-            
-            return await res.json();
-        }
-
-        // Função alternativa para áudio usando proxies públicos
-        async function fetchAudioViaProxy(url) {
-            // Tenta diferentes proxies CORS para o áudio
-            const audioProxies = [
-                `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
-                `https://corsproxy.io/?${encodeURIComponent(url)}`,
-                `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`
-            ];
-
-            for (const proxyUrl of audioProxies) {
-                try {
-                    const res = await fetch(proxyUrl);
-                    if (res.ok) {
-                        return await res.blob();
-                    }
-                } catch (error) {
-                    console.warn('Proxy de áudio falhou:', proxyUrl);
-                    continue;
+            try {
+                // Tentar primeiro via proxy da Vercel
+                const proxyUrl = `/api/proxy?url=${encodeURIComponent(url)}`;
+                const res = await fetch(proxyUrl);
+                
+                if (res.ok) {
+                    const data = await res.json();
+                    console.log('✅ Proxy Vercel funcionou');
+                    return data;
                 }
+                
+                throw new Error('Proxy Vercel falhou');
+            } catch (error) {
+                console.warn('⚠️ Proxy Vercel falhou, tentando alternativas...');
+                
+                // Fallback: tentar proxies CORS públicos
+                const corsProxies = [
+                    `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
+                    `https://corsproxy.io/?${encodeURIComponent(url)}`
+                ];
+                
+                for (const proxyUrl of corsProxies) {
+                    try {
+                        const res = await fetch(proxyUrl);
+                        if (res.ok) {
+                            const data = await res.json();
+                            console.log('✅ Proxy alternativo funcionou');
+                            return data;
+                        }
+                    } catch (e) {
+                        console.warn('⚠️ Proxy alternativo falhou:', proxyUrl);
+                    }
+                }
+                
+                throw new Error('Todos os proxies falharam');
             }
-            
-            throw new Error('Nenhum proxy de áudio disponível');
         }
 
         function setPlayerStatePlaying(playing) {
@@ -108,83 +615,48 @@
             currentSong = song;
             playerTitle.textContent = song.title || 'Sem título';
             playerArtist.textContent = song.artist || 'Artista desconhecido';
-
             playerThumb.src = song.thumbnail || fallbackThumb();
-            playerThumb.onerror = function () {
-                this.src = fallbackThumb();
-            };
+            playerThumb.onerror = () => { playerThumb.src = fallbackThumb(); };
         }
 
-        // Função para obter stream de áudio
-        async function getAudioStream(videoId) {
-            // Tenta diferentes serviços de streaming
-            const services = [
-                `https://pipedapi.kavin.rocks/streams/${videoId}`,
-                `https://pipedapi.tokhmi.xyz/streams/${videoId}`,
-                `https://pipedapi.syncpundit.io/streams/${videoId}`
-            ];
-
-            for (const serviceUrl of services) {
-                try {
-                    // Usa o proxy da Vercel para acessar o serviço
-                    const data = await fetchViaVercelProxy(serviceUrl);
-                    
-                    if (data.audioStreams && data.audioStreams.length > 0) {
-                        return data.audioStreams[0].url;
-                    }
-                } catch (error) {
-                    console.warn(`Serviço falhou: ${serviceUrl}`, error);
-                    continue;
-                }
-            }
-            
-            throw new Error('Nenhum serviço de streaming disponível');
-        }
-
-        async function downloadAndPlay(videoId) {
+        async function playAudio(videoId) {
             try {
-                const audioStreamUrl = await getAudioStream(videoId);
+                console.log('🎵 Buscando áudio para:', videoId);
                 
-                // Para o áudio, precisamos de um proxy CORS
-                const audioBlob = await fetchAudioViaProxy(audioStreamUrl);
-                const blobUrl = URL.createObjectURL(audioBlob);
+                // Tentar Piped API via proxy
+                const pipedUrl = `https://pipedapi.kavin.rocks/streams/${videoId}`;
+                const data = await fetchViaProxy(pipedUrl);
                 
-                // Limpa URL anterior se existir
-                if (audio.src) {
-                    URL.revokeObjectURL(audio.src);
-                }
-                
-                audio.src = blobUrl;
-                audio.load();
-
-                await audio.play();
-                setPlayerStatePlaying(true);
-
-                // Remover listeners antigos
-                audio.removeEventListener('timeupdate', updateProgress);
-                audio.removeEventListener('loadedmetadata', handleMetadata);
-                
-                audio.addEventListener('timeupdate', updateProgress);
-                audio.addEventListener('loadedmetadata', handleMetadata);
-                
-                function handleMetadata() {
-                    totalTimeEl.textContent = formatTime(audio.duration);
+                if (data.audioStreams && data.audioStreams.length > 0) {
+                    const audioUrl = data.audioStreams[0].url;
+                    console.log('✅ URL de áudio obtida');
+                    
+                    audio.src = audioUrl;
+                    audio.load();
+                    
+                    try {
+                        await audio.play();
+                        setPlayerStatePlaying(true);
+                        console.log('▶️ Reproduzindo');
+                    } catch (playError) {
+                        console.error('Erro ao reproduzir:', playError);
+                        alert('Erro ao reproduzir. O navegador pode estar bloqueando a reprodução automática.');
+                    }
+                } else {
+                    throw new Error('Sem streams de áudio disponíveis');
                 }
             } catch (error) {
-                console.error('Erro de áudio:', error);
-                alert('Erro ao carregar reprodução. Tente novamente mais tarde.');
+                console.error('❌ Erro no áudio:', error);
+                alert('Não foi possível reproduzir esta música. Tente outra.');
                 resetPlayer();
             }
         }
 
         function updateProgress() {
-            const currentTime = audio.currentTime;
-            const duration = audio.duration;
-
-            if (duration > 0) {
-                const percent = (currentTime / duration) * 100;
+            if (audio.duration) {
+                const percent = (audio.currentTime / audio.duration) * 100;
                 progressFill.style.width = percent + '%';
-                currentTimeEl.textContent = formatTime(currentTime);
+                currentTimeEl.textContent = formatTime(audio.currentTime);
             }
         }
 
@@ -193,15 +665,16 @@
             tab.addEventListener('click', function () {
                 document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
                 this.classList.add('active');
-
-                document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-                document.getElementById('tab-' + this.dataset.tab).classList.add('active');
+                
+                const tabName = this.dataset.tab;
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                document.getElementById('tab-' + tabName).classList.add('active');
             });
         });
 
         // ===== SEARCH =====
         searchBtn.addEventListener('click', performSearch);
-        searchInput.addEventListener('keypress', function (e) {
+        searchInput.addEventListener('keypress', e => {
             if (e.key === 'Enter') performSearch();
         });
 
@@ -209,25 +682,23 @@
             const query = searchInput.value.trim();
             if (!query) return;
 
+            console.log('🔍 Buscando:', query);
+            
             document.querySelector('[data-tab="search"]').click();
-            searchResults.innerHTML = '<div class="loading-text">⏳ Buscando no YouTube...</div>';
+            searchResults.innerHTML = '<div class="loading-text">⏳ Buscando...</div>';
 
             try {
-                const targetUrl =
-                    `${BASE_URL}?engine=youtube&search_query=${encodeURIComponent(query)}&api_key=${encodeURIComponent(SERPAPI_KEY)}&hl=pt&gl=BR`;
-
-                const data = await fetchViaVercelProxy(targetUrl);
+                const searchUrl = `${BASE_URL}?engine=youtube&search_query=${encodeURIComponent(query)}&api_key=${encodeURIComponent(SERPAPI_KEY)}&hl=pt&gl=BR`;
+                const data = await fetchViaProxy(searchUrl);
 
                 if (data.video_results && data.video_results.length > 0) {
                     displaySearchResults(data.video_results);
-                } else if (data.error) {
-                    throw new Error(data.error);
                 } else {
-                    searchResults.innerHTML = '<div class="loading-text">❌ Nenhum resultado encontrado</div>';
+                    searchResults.innerHTML = '<div class="loading-text">❌ Nenhum resultado</div>';
                 }
             } catch (error) {
-                console.error('Erro na busca:', error);
-                searchResults.innerHTML = '<div class="error-text">❌ Erro ao buscar. Tente novamente mais tarde.</div>';
+                console.error('❌ Erro na busca:', error);
+                searchResults.innerHTML = '<div class="error-text">❌ Erro ao buscar. Tente novamente.</div>';
             }
         }
 
@@ -238,28 +709,25 @@
             items.forEach(item => {
                 if (!item || !item.id || !item.title) return;
 
-                const title = item.title;
-                const channel = item.channel?.name || 'Artista Desconhecido';
-                const videoId = item.id;
-                const thumbUrl = item.thumbnail?.static || item.thumbnail || fallbackThumb();
-
-                const songObj = {
-                    id: videoId,
-                    title: title,
-                    artist: channel,
-                    thumbnail: thumbUrl
+                const song = {
+                    id: item.id,
+                    title: item.title,
+                    artist: item.channel?.name || 'Artista Desconhecido',
+                    thumbnail: item.thumbnail?.static || item.thumbnail || fallbackThumb()
                 };
 
-                searchResultsData.push(songObj);
+                searchResultsData.push(song);
+                const index = searchResultsData.length - 1;
 
                 html += `
-                    <div class="result-item" data-index="${searchResultsData.length - 1}">
-                        <img class="result-item-thumb" src="${thumbUrl}" alt="${title}" onerror="this.src='${fallbackThumb()}'" />
+                    <div class="result-item" data-index="${index}">
+                        <img class="result-item-thumb" src="${song.thumbnail}" alt="${song.title}" 
+                             onerror="this.src='${fallbackThumb()}'" />
                         <div class="result-item-info">
-                            <div class="result-item-title">${title}</div>
-                            <div class="result-item-artist">${channel}</div>
+                            <div class="result-item-title">${song.title}</div>
+                            <div class="result-item-artist">${song.artist}</div>
                         </div>
-                        <span class="result-item-play">▶️</span>
+                        <span style="font-size: 18px;">▶️</span>
                     </div>
                 `;
             });
@@ -268,26 +736,23 @@
 
             document.querySelectorAll('.result-item').forEach(item => {
                 item.addEventListener('click', function () {
-                    const index = parseInt(this.dataset.index);
-                    const song = searchResultsData[index];
-                    
                     document.querySelectorAll('.result-item').forEach(el => el.classList.remove('selected'));
                     this.classList.add('selected');
                     
+                    const song = searchResultsData[parseInt(this.dataset.index)];
                     playSong(song);
                 });
             });
         }
 
-        // ===== HOME / TRENDING =====
+        // ===== HOME =====
         async function loadTrending() {
+            console.log('🔥 Carregando tendências...');
             homeGrid.innerHTML = '<div class="loading-text">⏳ Carregando músicas em alta...</div>';
 
             try {
-                const targetUrl =
-                    `${BASE_URL}?engine=youtube&search_query=top+músicas+2024&api_key=${encodeURIComponent(SERPAPI_KEY)}&hl=pt&gl=BR`;
-
-                const data = await fetchViaVercelProxy(targetUrl);
+                const trendingUrl = `${BASE_URL}?engine=youtube&search_query=top+músicas+2024&api_key=${encodeURIComponent(SERPAPI_KEY)}&hl=pt&gl=BR`;
+                const data = await fetchViaProxy(trendingUrl);
 
                 if (data.video_results && data.video_results.length > 0) {
                     trendingData = [];
@@ -296,28 +761,25 @@
                     data.video_results.slice(0, 20).forEach(item => {
                         if (!item || !item.id || !item.title) return;
 
-                        const title = item.title;
-                        const channel = item.channel?.name || 'Artista Desconhecido';
-                        const videoId = item.id;
-                        const thumbUrl = item.thumbnail?.static || item.thumbnail || fallbackThumb();
-
-                        const songObj = {
-                            id: videoId,
-                            title: title,
-                            artist: channel,
-                            thumbnail: thumbUrl
+                        const song = {
+                            id: item.id,
+                            title: item.title,
+                            artist: item.channel?.name || 'Artista Desconhecido',
+                            thumbnail: item.thumbnail?.static || item.thumbnail || fallbackThumb()
                         };
 
-                        trendingData.push(songObj);
+                        trendingData.push(song);
+                        const index = trendingData.length - 1;
 
                         html += `
-                            <div class="music-card" data-index="${trendingData.length - 1}">
-                                <img class="music-card-thumb" src="${thumbUrl}" alt="${title}" onerror="this.src='${fallbackThumb()}'" />
+                            <div class="music-card" data-index="${index}">
+                                <img class="music-card-thumb" src="${song.thumbnail}" alt="${song.title}" 
+                                     onerror="this.src='${fallbackThumb()}'" />
                                 <div class="music-card-info">
-                                    <div class="music-card-title">${title}</div>
-                                    <div class="music-card-artist">${channel}</div>
+                                    <div class="music-card-title">${song.title}</div>
+                                    <div class="music-card-artist">${song.artist}</div>
                                 </div>
-                                <span class="music-card-play">▶️</span>
+                                <span style="font-size: 20px;">▶️</span>
                             </div>
                         `;
                     });
@@ -326,30 +788,30 @@
 
                     document.querySelectorAll('.music-card').forEach(card => {
                         card.addEventListener('click', function () {
-                            const index = parseInt(this.dataset.index);
-                            const song = trendingData[index];
+                            const song = trendingData[parseInt(this.dataset.index)];
                             playSong(song);
                         });
                     });
-                } else {
-                    homeGrid.innerHTML = '<div class="loading-text">❌ Nenhuma música em alta encontrada</div>';
+                    
+                    console.log('✅ Tendências carregadas');
                 }
             } catch (error) {
-                console.error('Erro ao carregar tendências:', error);
-                homeGrid.innerHTML = '<div class="error-text">❌ Erro ao carregar músicas. Tente novamente mais tarde.</div>';
+                console.error('❌ Erro ao carregar tendências:', error);
+                homeGrid.innerHTML = '<div class="error-text">❌ Erro ao carregar. Tente novamente.</div>';
             }
         }
 
         // ===== PLAY SONG =====
         async function playSong(song) {
             if (!song || !song.id) return;
+            console.log('🎵 Tocando:', song.title);
             
             applySongToPlayer(song);
-            await downloadAndPlay(song.id);
+            await playAudio(song.id);
         }
 
         // ===== PLAYER CONTROLS =====
-        playBtn.addEventListener('click', function () {
+        playBtn.addEventListener('click', () => {
             if (!currentSong) {
                 alert('Selecione uma música primeiro');
                 return;
@@ -359,12 +821,7 @@
                 audio.pause();
                 setPlayerStatePlaying(false);
             } else {
-                audio.play().then(() => {
-                    setPlayerStatePlaying(true);
-                }).catch(error => {
-                    console.error('Erro ao reproduzir:', error);
-                    alert('Erro ao reproduzir áudio');
-                });
+                audio.play().then(() => setPlayerStatePlaying(true)).catch(console.error);
             }
         });
 
@@ -374,25 +831,32 @@
 
         progressBar.addEventListener('click', function (e) {
             if (!audio.duration) return;
-            
             const rect = this.getBoundingClientRect();
             const percent = (e.clientX - rect.left) / rect.width;
             audio.currentTime = percent * audio.duration;
         });
 
-        audio.addEventListener('ended', function () {
+        audio.addEventListener('timeupdate', updateProgress);
+        
+        audio.addEventListener('loadedmetadata', () => {
+            totalTimeEl.textContent = formatTime(audio.duration);
+        });
+
+        audio.addEventListener('ended', () => {
             setPlayerStatePlaying(false);
             progressFill.style.width = '0%';
             currentTimeEl.textContent = '0:00';
         });
 
-        audio.addEventListener('error', function () {
-            alert('Erro ao carregar o áudio');
+        audio.addEventListener('error', () => {
+            console.error('Erro no elemento de áudio');
             resetPlayer();
         });
 
-        // ===== INITIALIZATION =====
+        // ===== INIT =====
+        console.log('🚀 Iniciando MusicApp');
         loadTrending();
+        console.log('✅ MusicApp pronto!');
     </script>
 </body>
 </html>
