@@ -1,19 +1,11 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "api/proxy.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "*.html",
-      "use": "@vercel/static"
+  "buildCommand": null,
+  "outputDirectory": ".",
+  "functions": {
+    "api/proxy.js": {
+      "memory": 256,
+      "maxDuration": 10
     }
-  ],
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/proxy.js"
-    }
-  ]
+  }
 }
