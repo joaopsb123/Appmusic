@@ -13,7 +13,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #050508;
+            background: linear-gradient(135deg, #050508 0%, #0a0a14 100%);
             color: #f0f0f0;
             height: 100vh;
             display: flex;
@@ -22,7 +22,7 @@
         }
 
         .header {
-            background-color: #0a0a12;
+            background: linear-gradient(180deg, #0a0a12 0%, #0d0d18 100%);
             padding: 15px 25px;
             display: flex;
             align-items: center;
@@ -33,6 +33,12 @@
 
         .logo-icon {
             font-size: 28px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
         }
 
         .logo-text {
@@ -64,11 +70,12 @@
             color: #f0f0f0;
             font-size: 16px;
             outline: none;
-            transition: border-color 0.3s;
+            transition: all 0.3s;
         }
 
         .search-input:focus {
             border-color: #ff0000;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.2);
         }
 
         .search-input::placeholder {
@@ -79,15 +86,17 @@
             padding: 12px 24px;
             border-radius: 24px;
             border: none;
-            background-color: #ff0000;
+            background: linear-gradient(135deg, #ff0000, #cc0000);
             color: white;
             font-size: 18px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: all 0.3s;
+            font-weight: bold;
         }
 
         .search-btn:hover {
-            background-color: #cc0000;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(255, 0, 0, 0.3);
         }
 
         .tabs {
@@ -108,6 +117,7 @@
 
         .tab:hover {
             color: #f0f0f0;
+            background-color: rgba(255, 255, 255, 0.02);
         }
 
         .tab.active {
@@ -123,7 +133,7 @@
 
         .tab-content {
             display: none;
-            animation: fadeIn 0.3s;
+            animation: fadeIn 0.3s ease;
         }
 
         .tab-content.active {
@@ -142,78 +152,28 @@
             color: #f0f0f0;
         }
 
-        .music-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 15px;
-        }
-
-        .music-card {
-            background-color: #0f0f14;
-            border-radius: 12px;
-            padding: 12px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .music-card:hover {
-            background-color: #1a1a22;
-        }
-
-        .music-card-thumb {
-            width: 60px;
-            height: 60px;
-            border-radius: 8px;
-            object-fit: cover;
-            background-color: #222;
-        }
-
-        .music-card-info {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .music-card-title {
-            font-size: 14px;
-            font-weight: bold;
-            color: #f0f0f0;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .music-card-artist {
-            font-size: 12px;
-            color: #888;
-            margin-top: 4px;
-        }
-
         .result-item {
-            background-color: #0f0f14;
+            background: linear-gradient(135deg, #0f0f14 0%, #15151e 100%);
             border-radius: 12px;
             padding: 12px 16px;
             display: flex;
             align-items: center;
             gap: 15px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: all 0.3s;
             margin-bottom: 8px;
+            border: 1px solid #1a1a22;
         }
 
         .result-item:hover {
-            background-color: #1a1a22;
-        }
-
-        .result-item.selected {
-            background-color: #ff0000;
+            background: linear-gradient(135deg, #1a1a22 0%, #20202a 100%);
+            transform: translateX(5px);
+            border-color: #ff0000;
         }
 
         .result-item-thumb {
-            width: 50px;
-            height: 50px;
+            width: 120px;
+            height: 68px;
             border-radius: 8px;
             object-fit: cover;
             background-color: #222;
@@ -228,15 +188,76 @@
             font-size: 15px;
             font-weight: bold;
             color: #f0f0f0;
-            white-space: nowrap;
+            margin-bottom: 4px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
             overflow: hidden;
-            text-overflow: ellipsis;
         }
 
-        .result-item-artist {
+        .result-item-channel {
             font-size: 13px;
             color: #888;
-            margin-top: 2px;
+            margin-bottom: 2px;
+        }
+
+        .result-item-meta {
+            font-size: 12px;
+            color: #666;
+            display: flex;
+            gap: 10px;
+        }
+
+        .badge-verified {
+            background: #606060;
+            color: white;
+            padding: 1px 4px;
+            border-radius: 3px;
+            font-size: 10px;
+            margin-left: 5px;
+        }
+
+        .video-details {
+            background: linear-gradient(135deg, #0f0f14 0%, #15151e 100%);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #1a1a22;
+        }
+
+        .video-details-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .video-details-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #888;
+            font-size: 14px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 8px;
+        }
+
+        .description-box {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+            color: #888;
+            line-height: 1.6;
+            max-height: 200px;
+            overflow-y: auto;
+            white-space: pre-wrap;
         }
 
         .loading-text {
@@ -244,6 +265,7 @@
             text-align: center;
             padding: 40px;
             font-size: 16px;
+            animation: pulse 1.5s infinite;
         }
 
         .error-text {
@@ -254,7 +276,7 @@
         }
 
         .player {
-            background-color: #08080e;
+            background: linear-gradient(180deg, #08080e 0%, #0d0d14 100%);
             border-top: 1px solid #1a1a22;
             padding: 10px 20px;
             display: flex;
@@ -272,10 +294,12 @@
             background-color: #222;
             animation: spin 10s linear infinite;
             animation-play-state: paused;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
         }
 
         .player-thumb.playing {
             animation-play-state: running;
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.5);
         }
 
         @keyframes spin {
@@ -316,14 +340,15 @@
             border-radius: 2px;
             position: relative;
             cursor: pointer;
+            overflow: hidden;
         }
 
         .player-progress-fill {
             height: 100%;
-            background-color: #ff0000;
+            background: linear-gradient(90deg, #ff0000, #ff4444);
             border-radius: 2px;
             width: 0%;
-            transition: width 0.1s;
+            transition: width 0.1s linear;
         }
 
         .player-time {
@@ -346,7 +371,7 @@
             cursor: pointer;
             padding: 8px;
             border-radius: 50%;
-            transition: background-color 0.3s;
+            transition: all 0.3s;
             width: 44px;
             height: 44px;
             display: flex;
@@ -356,14 +381,11 @@
 
         .player-btn:hover {
             background-color: rgba(255, 255, 255, 0.1);
+            transform: scale(1.1);
         }
 
         .player-btn.play-btn {
-            background-color: #ff0000;
-        }
-
-        .player-btn.play-btn:hover {
-            background-color: #cc0000;
+            background: linear-gradient(135deg, #ff0000, #cc0000);
         }
 
         .player-volume {
@@ -391,7 +413,7 @@
         }
 
         ::-webkit-scrollbar-thumb:hover {
-            background: #444;
+            background: #ff0000;
         }
 
         @media (max-width: 600px) {
@@ -400,11 +422,11 @@
             .search-bar { padding: 10px 15px; flex-wrap: wrap; }
             .search-input { font-size: 14px; padding: 10px 15px; }
             .search-btn { padding: 10px 18px; font-size: 16px; }
-            .music-grid { grid-template-columns: 1fr; }
             .player { padding: 8px 12px; height: 70px; flex-wrap: wrap; gap: 8px; }
             .player-thumb { width: 44px; height: 44px; }
             .player-volume input { width: 50px; }
             .tab { padding: 10px 15px; font-size: 14px; }
+            .result-item-thumb { width: 80px; height: 45px; }
         }
     </style>
 </head>
@@ -415,26 +437,25 @@
     </div>
 
     <div class="search-bar">
-        <input type="text" class="search-input" id="searchInput" placeholder="O que você quer ouvir?" />
-        <button class="search-btn" id="searchBtn">🔍</button>
+        <input type="text" class="search-input" id="searchInput" placeholder="🎵 Buscar músicas no YouTube..." />
+        <button class="search-btn" id="searchBtn">🔍 Buscar</button>
     </div>
 
     <div class="tabs">
-        <div class="tab active" data-tab="home">🏠 Home</div>
-        <div class="tab" data-tab="search">🔍 Buscar</div>
+        <div class="tab active" data-tab="search">🔍 Resultados</div>
+        <div class="tab" data-tab="details">📊 Detalhes</div>
     </div>
 
     <div class="content">
-        <div class="tab-content active" id="tab-home">
-            <div class="section-title">🔥 Em Alta</div>
-            <div class="music-grid" id="homeGrid">
-                <div class="loading-text">Carregando músicas em alta...</div>
+        <div class="tab-content active" id="tab-search">
+            <div id="searchResults">
+                <div class="loading-text">Busque por músicas, artistas ou bandas 🎵</div>
             </div>
         </div>
 
-        <div class="tab-content" id="tab-search">
-            <div id="searchResults">
-                <div class="loading-text">Pesquise por uma música ou artista</div>
+        <div class="tab-content" id="tab-details">
+            <div id="videoDetails">
+                <div class="loading-text">Selecione um vídeo para ver os detalhes 📊</div>
             </div>
         </div>
     </div>
@@ -468,16 +489,20 @@
     <audio id="audioPlayer"></audio>
 
     <script>
-        // ===== CONFIGURAÇÃO RAPIDAPI =====
+        // ===== API URLs (suas próprias APIs) =====
+        const API_BASE = '/api';
+        const SEARCH_API = `${API_BASE}/search`;
+        const VIDEO_API = `${API_BASE}/video`;
+        
+        // API RapidAPI para detalhes extras (opcional)
         const RAPIDAPI_KEY = '0c2f2846femsh55510634b00b46ep10bfafjsna86061fff644';
-        const YOUTUBE_SEARCH_HOST = 'youtube-v31.p.rapidapi.com';
-        const YOUTUBE_DOWNLOAD_HOST = 'youtube-mp36.p.rapidapi.com';
+        const YT_VIDEOS3_HOST = 'youtube-videos3.p.rapidapi.com';
 
         // ===== DOM ELEMENTS =====
         const searchInput = document.getElementById('searchInput');
         const searchBtn = document.getElementById('searchBtn');
-        const homeGrid = document.getElementById('homeGrid');
         const searchResults = document.getElementById('searchResults');
+        const videoDetails = document.getElementById('videoDetails');
         const playerTitle = document.getElementById('playerTitle');
         const playerArtist = document.getElementById('playerArtist');
         const playerThumb = document.getElementById('playerThumb');
@@ -491,8 +516,7 @@
 
         // ===== STATE =====
         let searchResultsData = [];
-        let trendingData = [];
-        let currentSong = null;
+        let currentVideo = null;
         let isPlaying = false;
 
         audio.volume = volumeSlider.value / 100;
@@ -502,55 +526,20 @@
             return "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect width='100' height='100' fill='%23222'/%3E%3Ctext x='50' y='55' text-anchor='middle' fill='%23666' font-size='40'%3E🎵%3C/text%3E%3C/svg%3E";
         }
 
-        // Buscar vídeos do YouTube via RapidAPI
-        async function searchYouTube(query, maxResults = 20) {
-            const url = `https://${YOUTUBE_SEARCH_HOST}/search?q=${encodeURIComponent(query)}&part=snippet,id&regionCode=BR&maxResults=${maxResults}&order=relevance`;
-
-            const options = {
-                method: 'GET',
-                headers: {
-                    'X-RapidAPI-Key': RAPIDAPI_KEY,
-                    'X-RapidAPI-Host': YOUTUBE_SEARCH_HOST
-                }
-            };
-
-            const response = await fetch(url, options);
-            if (!response.ok) throw new Error(`YouTube API error: ${response.status}`);
-            return await response.json();
+        function formatNumber(num) {
+            if (!num) return '0';
+            if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+            if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+            return num.toString();
         }
 
-        // Buscar vídeos relacionados
-        async function getRelatedVideos(videoId, maxResults = 10) {
-            const url = `https://${YOUTUBE_SEARCH_HOST}/search?relatedToVideoId=${videoId}&part=id,snippet&type=video&maxResults=${maxResults}`;
-
-            const options = {
-                method: 'GET',
-                headers: {
-                    'X-RapidAPI-Key': RAPIDAPI_KEY,
-                    'X-RapidAPI-Host': YOUTUBE_SEARCH_HOST
-                }
-            };
-
-            const response = await fetch(url, options);
-            if (!response.ok) throw new Error(`Related videos API error: ${response.status}`);
-            return await response.json();
-        }
-
-        // Download de áudio MP3
-        async function downloadAudio(videoId) {
-            const url = `https://${YOUTUBE_DOWNLOAD_HOST}/dl?id=${videoId}`;
-
-            const options = {
-                method: 'GET',
-                headers: {
-                    'X-RapidAPI-Key': RAPIDAPI_KEY,
-                    'X-RapidAPI-Host': YOUTUBE_DOWNLOAD_HOST
-                }
-            };
-
-            const response = await fetch(url, options);
-            if (!response.ok) throw new Error(`Download API error: ${response.status}`);
-            return await response.json();
+        function formatDuration(seconds) {
+            if (!seconds) return '';
+            const hrs = Math.floor(seconds / 3600);
+            const mins = Math.floor((seconds % 3600) / 60);
+            const secs = Math.floor(seconds % 60);
+            if (hrs > 0) return `${hrs}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+            return `${mins}:${String(secs).padStart(2, '0')}`;
         }
 
         function setPlayerStatePlaying(playing) {
@@ -573,14 +562,6 @@
             return mins + ':' + String(secs).padStart(2, '0');
         }
 
-        function applySongToPlayer(song) {
-            currentSong = song;
-            playerTitle.textContent = song.title || 'Sem título';
-            playerArtist.textContent = song.artist || 'Artista desconhecido';
-            playerThumb.src = song.thumbnail || fallbackThumb();
-            playerThumb.onerror = () => { playerThumb.src = fallbackThumb(); };
-        }
-
         function updateProgress() {
             if (audio.duration) {
                 const percent = (audio.currentTime / audio.duration) * 100;
@@ -589,22 +570,38 @@
             }
         }
 
-        // Formatar dados dos vídeos
-        function formatVideoData(items) {
-            return items
-                .filter(item => item.id && (item.id.videoId || item.id))
-                .map(item => {
-                    const videoId = item.id.videoId || item.id;
-                    const snippet = item.snippet || {};
-                    return {
-                        id: videoId,
-                        title: snippet.title || 'Sem título',
-                        artist: snippet.channelTitle || 'Artista desconhecido',
-                        thumbnail: snippet.thumbnails?.medium?.url || 
-                                  snippet.thumbnails?.default?.url || 
-                                  fallbackThumb()
-                    };
-                });
+        // ===== SUAS APIs =====
+        async function searchYouTube(query) {
+            const url = `${SEARCH_API}?q=${encodeURIComponent(query)}&max=30`;
+            const response = await fetch(url);
+            if (!response.ok) throw new Error(`Search API error: ${response.status}`);
+            return await response.json();
+        }
+
+        async function getVideoDetails(videoId) {
+            const url = `${VIDEO_API}?id=${encodeURIComponent(videoId)}`;
+            const response = await fetch(url);
+            if (!response.ok) throw new Error(`Video API error: ${response.status}`);
+            return await response.json();
+        }
+
+        // API RapidAPI para detalhes extras (views, likes)
+        async function getVideoDetailsRapid(videoId) {
+            try {
+                const url = `https://${YT_VIDEOS3_HOST}/?video_id=${videoId}`;
+                const options = {
+                    method: 'GET',
+                    headers: {
+                        'X-RapidAPI-Key': RAPIDAPI_KEY,
+                        'X-RapidAPI-Host': YT_VIDEOS3_HOST
+                    }
+                };
+                const response = await fetch(url, options);
+                if (response.ok) return await response.json();
+            } catch (error) {
+                console.warn('RapidAPI não disponível:', error);
+            }
+            return null;
         }
 
         // ===== TABS =====
@@ -612,7 +609,6 @@
             tab.addEventListener('click', function () {
                 document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
                 this.classList.add('active');
-
                 const tabName = this.dataset.tab;
                 document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
                 document.getElementById('tab-' + tabName).classList.add('active');
@@ -630,37 +626,43 @@
             if (!query) return;
 
             document.querySelector('[data-tab="search"]').click();
-            searchResults.innerHTML = '<div class="loading-text">🔍 Buscando...</div>';
+            searchResults.innerHTML = '<div class="loading-text">🔍 Buscando no YouTube...</div>';
 
             try {
-                const data = await searchYouTube(query, 30);
+                const data = await searchYouTube(query);
 
-                if (data.items && data.items.length > 0) {
-                    displaySearchResults(data.items);
+                if (data.success && data.videos && data.videos.length > 0) {
+                    searchResultsData = data.videos;
+                    displaySearchResults(data.videos);
                 } else {
                     searchResults.innerHTML = '<div class="loading-text">❌ Nenhum resultado encontrado</div>';
                 }
             } catch (error) {
                 console.error('Erro na busca:', error);
-                searchResults.innerHTML = `<div class="error-text">❌ Erro: ${error.message}</div>`;
+                searchResults.innerHTML = `<div class="error-text">❌ Erro ao buscar. Tente novamente.</div>`;
             }
         }
 
-        function displaySearchResults(items) {
-            const formatted = formatVideoData(items);
-            searchResultsData = formatted;
-            
+        function displaySearchResults(videos) {
             let html = '';
-            formatted.forEach((song, index) => {
+            
+            videos.forEach((video, index) => {
+                const verifiedBadge = video.badges?.includes('VERIFIED') ? '<span class="badge-verified">✓</span>' : '';
+                
                 html += `
                     <div class="result-item" data-index="${index}">
-                        <img class="result-item-thumb" src="${song.thumbnail}" alt="${song.title}" 
-                             onerror="this.src='${fallbackThumb()}'" />
+                        <img class="result-item-thumb" src="${video.thumbnail || fallbackThumb()}" 
+                             alt="${video.title}" onerror="this.src='${fallbackThumb()}'" />
                         <div class="result-item-info">
-                            <div class="result-item-title">${song.title}</div>
-                            <div class="result-item-artist">${song.artist}</div>
+                            <div class="result-item-title">${video.title}</div>
+                            <div class="result-item-channel">${video.channel.name}${verifiedBadge}</div>
+                            <div class="result-item-meta">
+                                <span>👁️ ${video.views}</span>
+                                <span>⏱️ ${video.duration}</span>
+                                <span>📅 ${video.publishedTime}</span>
+                            </div>
                         </div>
-                        <span style="font-size: 18px;">▶️</span>
+                        <span style="font-size: 24px;">▶️</span>
                     </div>
                 `;
             });
@@ -668,115 +670,140 @@
             searchResults.innerHTML = html;
 
             document.querySelectorAll('.result-item').forEach(item => {
-                item.addEventListener('click', function () {
-                    document.querySelectorAll('.result-item').forEach(el => el.classList.remove('selected'));
-                    this.classList.add('selected');
-
-                    const song = searchResultsData[parseInt(this.dataset.index)];
-                    playSong(song);
+                item.addEventListener('click', async function () {
+                    const video = searchResultsData[parseInt(this.dataset.index)];
+                    await loadVideoDetails(video);
                 });
             });
         }
 
-        // ===== TRENDING =====
-        async function loadTrending() {
-            homeGrid.innerHTML = '<div class="loading-text">🔥 Carregando músicas em alta...</div>';
+        // ===== LOAD VIDEO DETAILS =====
+        async function loadVideoDetails(video) {
+            videoDetails.innerHTML = '<div class="loading-text">📊 Carregando detalhes...</div>';
+            document.querySelector('[data-tab="details"]').click();
+
+            // Atualizar player
+            playerTitle.textContent = video.title;
+            playerArtist.textContent = video.channel.name;
+            playerThumb.src = video.thumbnail || fallbackThumb();
+            playerThumb.onerror = () => { playerThumb.src = fallbackThumb(); };
 
             try {
-                // Buscar músicas populares do Brasil
-                const data = await searchYouTube('top músicas brasil 2024', 20);
+                // Buscar detalhes da sua API
+                const [yourApiData, rapidData] = await Promise.all([
+                    getVideoDetails(video.id),
+                    getVideoDetailsRapid(video.id)
+                ]);
 
-                if (data.items && data.items.length > 0) {
-                    displayTrending(data.items);
-                } else {
-                    homeGrid.innerHTML = '<div class="loading-text">❌ Nenhuma música encontrada</div>';
-                }
+                const details = yourApiData.video || {};
+                
+                // Mesclar dados
+                const enrichedDetails = {
+                    ...details,
+                    views: rapidData?.views || rapidData?.viewCount || details.views || 0,
+                    likes: rapidData?.likes || rapidData?.likeCount || details.likes || 0
+                };
+
+                currentVideo = enrichedDetails;
+                displayVideoDetails(enrichedDetails);
+
             } catch (error) {
-                console.error('Erro ao carregar tendências:', error);
-                homeGrid.innerHTML = `<div class="error-text">❌ Erro: ${error.message}</div>`;
+                console.error('Erro ao carregar detalhes:', error);
+                videoDetails.innerHTML = `<div class="error-text">❌ Erro ao carregar detalhes</div>`;
             }
         }
 
-        function displayTrending(items) {
-            const formatted = formatVideoData(items);
-            trendingData = formatted;
+        function displayVideoDetails(data) {
+            const views = formatNumber(data.views);
+            const likes = formatNumber(data.likes);
+            const duration = formatDuration(data.duration);
 
-            let html = '';
-            formatted.forEach((song, index) => {
-                html += `
-                    <div class="music-card" data-index="${index}">
-                        <img class="music-card-thumb" src="${song.thumbnail}" alt="${song.title}" 
-                             onerror="this.src='${fallbackThumb()}'" />
-                        <div class="music-card-info">
-                            <div class="music-card-title">${song.title}</div>
-                            <div class="music-card-artist">${song.artist}</div>
+            let html = `
+                <div class="video-details">
+                    <div class="video-details-title">📊 ${data.title || 'Sem título'}</div>
+                    <div class="video-details-stats">
+                        <div class="stat-item">
+                            <span style="font-size: 20px;">👁️</span>
+                            <div>
+                                <div style="font-size: 12px; color: #666;">Visualizações</div>
+                                <div style="font-weight: bold;">${views}</div>
+                            </div>
                         </div>
-                        <span style="font-size: 20px;">▶️</span>
+                        <div class="stat-item">
+                            <span style="font-size: 20px;">👍</span>
+                            <div>
+                                <div style="font-size: 12px; color: #666;">Likes</div>
+                                <div style="font-weight: bold;">${likes}</div>
+                            </div>
+                        </div>
+                        ${duration ? `
+                        <div class="stat-item">
+                            <span style="font-size: 20px;">⏱️</span>
+                            <div>
+                                <div style="font-size: 12px; color: #666;">Duração</div>
+                                <div style="font-weight: bold;">${duration}</div>
+                            </div>
+                        </div>
+                        ` : ''}
+                        ${data.category ? `
+                        <div class="stat-item">
+                            <span style="font-size: 20px;">🏷️</span>
+                            <div>
+                                <div style="font-size: 12px; color: #666;">Categoria</div>
+                                <div style="font-weight: bold;">${data.category}</div>
+                            </div>
+                        </div>
+                        ` : ''}
+                    </div>
+                </div>
+            `;
+
+            // Canal
+            if (data.channel) {
+                html += `
+                    <div class="video-details">
+                        <div style="font-size: 18px; font-weight: bold; margin-bottom: 15px;">📺 Canal</div>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            ${data.channel.thumbnail ? 
+                                `<img src="${data.channel.thumbnail}" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover;" />` : 
+                                ''}
+                            <div>
+                                <div style="font-weight: bold; font-size: 16px;">${data.channel.name}</div>
+                                <div style="color: #888; font-size: 13px; margin-top: 4px;">ID: ${data.channel.id}</div>
+                            </div>
+                        </div>
                     </div>
                 `;
-            });
-
-            homeGrid.innerHTML = html;
-
-            document.querySelectorAll('.music-card').forEach(card => {
-                card.addEventListener('click', function () {
-                    const song = trendingData[parseInt(this.dataset.index)];
-                    playSong(song);
-                });
-            });
-        }
-
-        // ===== PLAY SONG =====
-        async function playSong(song) {
-            if (!song || !song.id) return;
-
-            applySongToPlayer(song);
-
-            try {
-                // Mostrar loading no player
-                playerTitle.textContent = '⏳ Carregando...';
-                
-                // Baixar áudio via RapidAPI
-                const audioData = await downloadAudio(song.id);
-
-                if (audioData.link) {
-                    audio.src = audioData.link;
-                    audio.load();
-
-                    await audio.play();
-                    setPlayerStatePlaying(true);
-                    
-                    // Restaurar título
-                    playerTitle.textContent = song.title;
-                    
-                    // Carregar vídeos relacionados em background
-                    loadRelatedVideos(song.id).catch(console.warn);
-                } else {
-                    throw new Error('Link de áudio não disponível');
-                }
-            } catch (error) {
-                console.error('Erro ao reproduzir:', error);
-                alert('Não foi possível reproduzir esta música. Tente outra.');
-                resetPlayer();
-                applySongToPlayer(song); // Restaurar informações
             }
-        }
 
-        // Carregar vídeos relacionados (opcional)
-        async function loadRelatedVideos(videoId) {
-            try {
-                const data = await getRelatedVideos(videoId, 10);
-                // Por enquanto só log, pode ser usado para recomendações futuras
-                console.log('Vídeos relacionados carregados:', data.items?.length || 0);
-            } catch (error) {
-                console.warn('Erro ao carregar relacionados:', error);
+            // Descrição
+            if (data.description) {
+                html += `
+                    <div class="video-details">
+                        <div style="font-size: 18px; font-weight: bold; margin-bottom: 10px;">📝 Descrição</div>
+                        <div class="description-box">${data.description.substring(0, 1000)}</div>
+                    </div>
+                `;
             }
+
+            // Link do YouTube
+            html += `
+                <div class="video-details" style="text-align: center;">
+                    <a href="${data.url || `https://youtube.com/watch?v=${data.id}`}" 
+                       target="_blank" 
+                       style="color: #ff0000; text-decoration: none; font-weight: bold;">
+                        🔗 Assistir no YouTube
+                    </a>
+                </div>
+            `;
+
+            videoDetails.innerHTML = html;
         }
 
         // ===== PLAYER CONTROLS =====
         playBtn.addEventListener('click', () => {
-            if (!currentSong) {
-                alert('Selecione uma música primeiro');
+            if (!currentVideo) {
+                alert('Selecione um vídeo primeiro');
                 return;
             }
 
@@ -788,7 +815,7 @@
                     .then(() => setPlayerStatePlaying(true))
                     .catch(err => {
                         console.error('Erro ao reproduzir:', err);
-                        alert('Erro ao reproduzir áudio');
+                        alert('Não foi possível reproduzir. O vídeo pode ter restrições.');
                     });
             }
         });
@@ -805,7 +832,7 @@
         });
 
         audio.addEventListener('timeupdate', updateProgress);
-
+        
         audio.addEventListener('loadedmetadata', () => {
             totalTimeEl.textContent = formatTime(audio.duration);
         });
@@ -816,13 +843,10 @@
             currentTimeEl.textContent = '0:00';
         });
 
-        audio.addEventListener('error', (e) => {
-            console.error('Erro no áudio:', e);
-            resetPlayer();
-        });
+        audio.addEventListener('error', () => resetPlayer());
 
         // ===== INIT =====
-        loadTrending();
+        console.log('🎵 MusicApp pronto com suas APIs personalizadas!');
     </script>
 </body>
 </html>
